@@ -1,0 +1,169 @@
+# ================================
+# ENVIRONMENT & CONFIGURATION FILES
+# ================================
+.env
+.env.*
+!.env.example
+config.json
+config.local.json
+
+# ================================
+# DEPENDENCIES & BUILD ARTIFACTS
+# ================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ================================
+# LOGS & TEMPORARY FILES
+# ================================
+logs/
+*.log
+*.log.*
+tmp/
+temp/
+*.tmp
+*.temp
+
+# ================================
+# DATABASE & UPLOADS
+# ================================
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+data/
+dumps/
+backups/
+*.dump
+
+# File uploads
+uploads/
+files/
+storage/
+public/uploads/
+public/files/
+
+# ================================
+# SECURITY & SENSITIVE DATA
+# ================================
+# SSL Certificates
+*.pem
+*.key
+*.crt
+*.cert
+*.p12
+*.pfx
+
+# JWT & API Keys
+jwt-secret.txt
+api-keys.json
+secrets.json
+credentials.json
+
+# OAuth & Auth configs
+oauth-config.json
+auth-keys.json
+
+# ================================
+# DEVELOPMENT & DEBUG FILES
+# ================================
+# Debug files
+*.debug
+debug.log
+.nyc_output/
+coverage/
+.coverage/
+
+# Testing
+test-results/
+test-reports/
+*.test.log
+
+# IDE & Editor files
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ================================
+# DEPLOYMENT & DOCKER
+# ================================
+# Docker
+.dockerignore
+docker-compose.override.yml
+.docker/
+
+# Production builds
+build/
+dist/
+out/
+
+# PM2
+.pm2/
+ecosystem.config.js
+logs/pm2/
+
+# ================================
+# DOCUMENTATION (if sensitive)
+# ================================
+APIFEATURES_IMPLEMENTATION.md
+ASSIGNMENT_SUBMISSION_README.md
+AUTH_README.md
+QUESTION_EXAM_README.md
+TRANSACTION_IMPROVEMENTS.md
+DEVELOPMENT_NOTES.md
+INTERNAL_DOCS.md
+
+# ================================
+# BACKUP & MIGRATION FILES
+# ================================
+*.backup
+*.bak
+migrations/data/
+seed-data/
+*.seed
+
+# ================================
+# OS SPECIFIC FILES
+# ================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+.nfs*
+
+# ================================
+# MONITORING & ANALYTICS
+# ================================
+analytics/
+metrics/
+monitoring-data/
+newrelic.js
+.newrelic/
+
+# ================================
+# CACHE & SESSION FILES
+# ================================
+.cache/
+cache/
+sessions/
+*.session
