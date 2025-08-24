@@ -26,16 +26,41 @@ class CacheService {
 
   async initializeRedis() {
     try {
-      this.redis = new Redis({
-        host: process.env.REDIS_HOST || 'localhost',
-        port: process.env.REDIS_PORT || 6379,
-        password: process.env.REDIS_PASSWORD || null,
-        retryDelayOnFailover: 100,
-        enableReadyCheck: false,
-        maxRetriesPerRequest: 3,
-        lazyConnect: true,
-        connectTimeout: 5000,
-      });
+      // Check if REDIS_URL is provided (for cloud Redis like Redis Cloud)
+      if (process.env.REDIS_URL) {
+        console.log('🔗 Connecting to Redis using REDIS_URL...');
+        
+        const options = {
+          retryDelayOnFailover: 100,
+          enableReadyCheck: false,
+          maxRetriesPerRequest: 3,
+          lazyConnect: true,
+          connectTimeout: 10000,
+          retryStrategy(times) {
+            if (times > 5) return null; // Stop retrying after 5 attempts
+            return Math.min(times * 200, 2000);
+          }
+        };
+        
+        // Only add TLS if using rediss:// (SSL)
+        if (process.env.REDIS_URL.startsWith('rediss://')) {
+          options.tls = {};
+        }
+        
+        this.redis = new Redis(process.env.REDIS_URL, options);
+      } else {
+        // Fallback to individual Redis config (for local development)
+        this.redis = new Redis({
+          host: process.env.REDIS_HOST || 'localhost',
+          port: process.env.REDIS_PORT || 6379,
+          password: process.env.REDIS_PASSWORD || null,
+          retryDelayOnFailover: 100,
+          enableReadyCheck: false,
+          maxRetriesPerRequest: 3,
+          lazyConnect: true,
+          connectTimeout: 5000,
+        });
+      }
 
       this.redis.on('connect', () => {
         console.log('✅ Redis connected successfully');
@@ -43,12 +68,16 @@ class CacheService {
       });
 
       this.redis.on('error', (err) => {
-        console.log('⚠️ Redis unavailable - using memory cache');
+        if (!this._hasLoggedError) {
+          console.log('⚠️ Redis unavailable - using memory cache');
+          this._hasLoggedError = true;
+        }
         this.isConnected = false;
       });
 
       this.redis.on('close', () => {
         this.isConnected = false;
+        this._hasLoggedError = false; // Reset error flag when connection closes
       });
 
       // Test connection
