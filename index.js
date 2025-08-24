@@ -38,7 +38,22 @@ connectDB();
 // MIDDLEWARE: Xử lý dữ liệu đầu vào
 app.use(express.json({ limit: '10mb' })); // Parse JSON body
 app.use(express.urlencoded({ extended: true })); // Parse form-urlencoded
-app.use(cors()); // Cho phép CORS (giao tiếp với frontend)
+
+// CORS Configuration - Allow specific origins
+const corsOptions = {
+  origin: [
+    'http://localhost:5173', // Local development
+    'http://localhost:5174', // Local development (alternative port)
+    'https://edu-core-client.vercel.app', // Production Vercel domain
+    'https://*.vercel.app' // All Vercel preview deployments
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  optionsSuccessStatus: 200 // Some legacy browsers choke on 204
+};
+
+app.use(cors(corsOptions)); // Cho phép CORS với cấu hình cụ thể
 
 // ROUTE: Kiểm tra server sống
 app.get('/', (req, res) => {
